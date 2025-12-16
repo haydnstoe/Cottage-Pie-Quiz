@@ -26,25 +26,19 @@
     label {
       cursor: pointer;
     }
-    #result {
-      margin-top: 30px;
+    .correct {
+      color: green;
       font-weight: bold;
-      text-align: center;
     }
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
+    .incorrect {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <h1>Cottage Pie Quiz</h1>
   <form id="quiz"></form>
-  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
-  <div id="result"></div>
 
   <script>
     const quizData = [
@@ -128,6 +122,19 @@
         input.type = "radio";
         input.name = "question" + index;
         input.value = answer;
+
+        input.addEventListener("change", () => {
+          const allOptions = document.querySelectorAll('input[name="question' + index + '"]');
+          allOptions.forEach(opt => {
+            opt.parentElement.classList.remove("correct", "incorrect");
+          });
+          if (input.value === item.correct) {
+            label.classList.add("correct");
+          } else {
+            label.classList.add("incorrect");
+          }
+        });
+
         label.appendChild(input);
         label.appendChild(document.createTextNode(" " + answer));
         li.appendChild(label);
@@ -137,17 +144,6 @@
       questionDiv.appendChild(answersList);
       quizContainer.appendChild(questionDiv);
     });
-
-    function checkAnswers() {
-      let score = 0;
-      quizData.forEach((item, index) => {
-        const selected = document.querySelector('input[name="question' + index + '"]:checked');
-        if (selected && selected.value === item.correct) {
-          score++;
-        }
-      });
-      document.getElementById("result").textContent = "You scored " + score + " out of " + quizData.length + ".";
-    }
   </script>
 </body>
 </html>
