@@ -1,22 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Interactive Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Cottage Pie Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .answers {
+      list-style-type: none;
+      padding: 0;
+    }
+    .answers li {
+      margin: 5px 0;
+    }
+    label {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>HTML Basics Quiz</h1>
-  <form id="quiz-form">
-    <div>
-      <p>1. What does HTML stand for?</p>
-      <input type="radio" name="q1" value="a"> Home Tool Markup Language<br>
-      <input type="radio" name="q1" value="b"> HyperText Markup Language<br>
-      <input type="radio" name="q1" value="c"> Hyperlink Text Management Language<br>
-    </div>
-    <button type="button" onclick="submitQuiz()">Submit</button>
-  </form>
-  <div id="result"></div>
+  <h1>Cottage Pie Quiz</h1>
+  <form id="quiz"></form>
 
-  <script src="script.js"></script>
+  <script>
+    const quizData = [
+      {
+        question: "1) Cottage Pie uses beef. What meat does Shepherd’s Pie use?",
+        answers: ["kangaroo", "lamb", "chicken", "pineapples"]
+      },
+      {
+        question: "2) What is used for the topping on Cottage Pie?",
+        answers: ["cement", "rice", "potatoes", "stale bread"]
+      },
+      {
+        question: "3) If you “dice” a carrot, what are you doing to it?",
+        answers: ["playing “snakes and ladders”", "cutting it very finely", "cutting it into cubes", "letting the carrot drive your car"]
+      },
+      {
+        question: "4) If you crush garlic cloves, what are you doing to it?",
+        answers: ["making it feel sad and lonely", "cutting it into cubes", "cutting it into thin strips", "hitting it with a hammer (or the flat part of a knife)"]
+      },
+      {
+        question: "5) Which is bigger?",
+        answers: ["a tablespoon", "a grain of salt", "a pea", "a teaspoon"]
+      },
+      {
+        question: "6) Can an American person pronounce “Worcestershire”?",
+        answers: ["yes", "maybe", "possibly", "definitely not"]
+      },
+      {
+        question: "7) How would you make beef stock?",
+        answers: ["dissolve beef stock cubes in boiling water", "dissolve beef stock cubes in cold water", "dissolve beef stock cubes in room temperature milk", "dissolve beef stock cubes in ice cold vodka"]
+      },
+      {
+        question: "8) What would you use to improve the flavour of your food?",
+        answers: ["extra hot chilli powder", "salt and shampoo", "salt and pepper", "shoe polish"]
+      },
+      {
+        question: "9) What word do we use for taking the skin off a potato?",
+        answers: ["skinning", "shouting", "pouting", "peeling"]
+      },
+      {
+        question: "10) Which kitchen utensil would you use to “stir” your food?",
+        answers: ["fork", "your phone", "spoon", "your dog"]
+      }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const quizContainer = document.getElementById("quiz");
+
+    quizData.forEach((item, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+
+      const qText = document.createElement("p");
+      qText.textContent = item.question;
+      questionDiv.appendChild(qText);
+
+      const answersList = document.createElement("ul");
+      answersList.className = "answers";
+
+      shuffle([...item.answers]).forEach(answer => {
+        const li = document.createElement("li");
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "question" + index;
+        input.value = answer;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + answer));
+        li.appendChild(label);
+        answersList.appendChild(li);
+      });
+
+      questionDiv.appendChild(answersList);
+      quizContainer.appendChild(questionDiv);
+    });
+  </script>
 </body>
 </html>
